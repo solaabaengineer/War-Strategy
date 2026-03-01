@@ -1,0 +1,24 @@
+[package]
+name = "wstr_treasury"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+anchor-lang = "0.29"
+anchor-spl = "0.29"
+solana-program = "1.18"
+spl-token = "3.5"
+spl-associated-token-account = "2.3"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[[bin]]
+name = "wstr_treasury"
+path = "src/lib.rs"
+
+[profile.release]
+overflow-checks = true
+lto = true
+codegen-units = 1
+opt-level = 3

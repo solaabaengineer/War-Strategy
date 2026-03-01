@@ -1,0 +1,30 @@
+{
+  "name": "@wstr/on-chain",
+  "version": "0.1.0",
+  "description": "War Strategy - Solana on-chain program for treasury management",
+  "main": "target/types/wstr_treasury.ts",
+  "types": "target/types/wstr_treasury.ts",
+  "scripts": {
+    "test": "anchor test",
+    "build": "anchor build",
+    "deploy:devnet": "anchor deploy --provider.cluster devnet",
+    "deploy:mainnet": "anchor deploy --provider.cluster mainnet",
+    "docs": "anchor build --release && soldoc target/idl/wstr_treasury.json"
+  },
+  "dependencies": {
+    "@coral-xyz/anchor": "^0.29.0",
+    "@solana/web3.js": "^1.78.0",
+    "@solana/spl-token": "^0.4.5"
+  },
+  "devDependencies": {
+    "@solana/web3.js": "^1.78.0",
+    "@types/bn.js": "^5.1.1",
+    "@types/chai": "^4.3.5",
+    "@types/mocha": "^10.0.1",
+    "@types/node": "^20.4.5",
+    "chai": "^4.3.7",
+    "mocha": "^10.2.0",
+    "ts-mocha": "^10.0.0",
+    "typescript": "^5.1.6"
+  }
+}

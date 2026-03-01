@@ -1,0 +1,84 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+/// Conflict zone being monitored
+model Conflict {
+  id            String   @id @default(cuid())
+  country       String   @unique
+  region        String
+  latitude      Float
+  longitude     Float
+  intensity     Int      @default(0) /// 0-100 intensity score
+  deathToll     Int      @default(0)
+  lastUpdated   DateTime @updatedAt
+  createdAt     DateTime @default(now())
+  /// Related resource holdings in this conflict zone
+  resources     Resource[]
+  
+  @@index([intensity])
+  @@index([lastUpdated])
+}
+
+/// Natural resource associated with conflict zone
+model Resource {
+  id            String   @id @default(cuid())
+  conflictId    String
+  conflict      Conflict @relation(fields: [conflictId], references: [id], onDelete: Cascade)
+  resourceType  String   /// gold, oil, natural_gas, wheat, copper, cobalt, etc.
+  estimatedQuantity Float
+  unit          String   /// tons, barrels, etc.
+  marketValue   BigInt   /// in cents
+  lastUpdated   DateTime @updatedAt
+  createdAt     DateTime @default(now())
+
+  @@unique([conflictId, resourceType])
+  @@index([conflictId])
+  @@index([resourceType])
+}
+
+/// Purchase record from on-chain
+model Purchase {
+  id            String   @id @default(cuid())
+  resourceType  String
+  quantity      BigInt
+  unitPrice     BigInt   /// in cents
+  totalCostUsd  BigInt
+  transactionHash String @unique
+  blockNumber   BigInt
+  timestamp     DateTime
+  createdAt     DateTime @default(now())
+
+  @@index([resourceType])
+  @@index([timestamp])
+}
+
+/// Fee event from Pump.fun
+model FeeEvent {
+  id            String   @id @default(cuid())
+  amount        BigInt   /// in lamports (USDC)
+  transactionHash String @unique
+  blockNumber   BigInt
+  timestamp     DateTime
+  processed     Boolean  @default(false)
+  createdAt     DateTime @default(now())
+
+  @@index([processed])
+  @@index([timestamp])
+}
+
+/// Treasury balance snapshot for auditing
+model TreasurySnapshot {
+  id                String   @id @default(cuid())
+  totalUsdValue     BigInt   /// in cents
+  totalFeesReceived BigInt
+  resourceCount     Int
+  timestamp         DateTime @default(now())
+
+  @@index([timestamp])
+}
