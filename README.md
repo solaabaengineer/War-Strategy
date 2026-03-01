@@ -1,5 +1,10 @@
 # War Strategy - $WSTR Token
 
+![image - 2026-03-01T004330 260](https://github.com/user-attachments/assets/43f13afc-2c48-458b-a353-370ef432ebd5)
+
+X: https://x.com/WarStrategyy
+
+
 > The first memecoin with a real balance sheet backed by conflict zone commodities on Solana
 
 ## Overview
